@@ -188,6 +188,8 @@ GEM
     parser (3.3.9.0)
       ast (~> 2.4.1)
       racc
+    pg (1.6.2-x64-mingw-ucrt)
+    pg (1.6.2-x86_64-linux)
     pp (0.6.2)
       prettyprint
     prettyprint (0.2.0)
@@ -360,6 +362,7 @@ DEPENDENCIES
   dotenv-rails
   importmap-rails
   jbuilder
+  pg
   puma (>= 5.0)
   rails (~> 7.2.2, >= 7.2.2.2)
   ransack
@@ -367,7 +370,7 @@ DEPENDENCIES
   sass-rails
   selenium-webdriver
   sprockets-rails
-  sqlite3 (>= 1.4)
+  sqlite3
   stimulus-rails
   turbo-rails
   tzinfo-data
