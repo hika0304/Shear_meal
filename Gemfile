@@ -68,6 +68,6 @@ gem 'activestorage-cloudinary-service'
 
 gem 'ransack'
 
-group :production do
+
   gem 'pg'
-end
+
