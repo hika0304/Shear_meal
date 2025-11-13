@@ -1,0 +1,49 @@
+<h3>新規Tweet</h3>
+
+<%= form_with(model: @tweet, local: true) do |f| %>
+   <div class="field">
+    <%= f.label :age_group, "年代" %><br>
+    <%= f.select :age_group, [
+        ['10代', '10代'],
+        ['20代', '20代'],
+        ['30代', '30代'],
+        ['40代', '40代'],
+        ['50代', '50代'],
+        ['60代以上', '60代以上']
+      ], prompt: "選択してください" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :gender, "性別" %><br>
+    <%= f.select :gender, [['男性', '男性'], ['女性', '女性'], ['その他', 'その他']], prompt: "選択してください" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :weight, "体重(kg)" %><br>
+    <%= f.number_field :weight, step: 0.1 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :goal, "目的" %><br>
+    <%= f.select :goal, [['ダイエット', 'ダイエット'], ['筋トレ', '筋トレ'], ['健康維持', '健康維持']], prompt: "選択してください" %>
+  </div>
+
+  <!-- 他の投稿内容（食事画像やコメントなど） -->
+  <div class="field">
+    <%= f.label :body %>
+    <%= f.text_field :body, :size => 140 %>
+  </div>
+ <div class="field">
+    <%= f.label :image %>
+    <%= f.file_field :image %>
+ </div>
+ 
+  <%= f.submit "Tweetする" %>
+<% end %>
+<%= link_to "Tweet一覧に戻る", tweets_path %>
+  
+
+
+
+
+  

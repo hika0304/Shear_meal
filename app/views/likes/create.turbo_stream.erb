@@ -1,0 +1,4 @@
+<%= turbo_stream.replace "tweet_#{@tweet.id}_likes",
+    partial: "tweets/like_button",
+    locals: { tweet: @tweet } %>
+    

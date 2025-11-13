@@ -1,0 +1,32 @@
+<h1>マイページ</h1>
+
+<p><strong>メール:</strong> <%= @user.email %></p>
+<p><strong>年代:</strong> <%= @user.age_group || "未設定" %></p>
+<p><strong>性別:</strong> <%= @user.gender || "未設定" %></p>
+<p><strong>目的:</strong> <%= @user.goal || "未設定" %></p>
+
+<%= link_to "プロフィールを編集", edit_user_path, class: "btn" %>
+
+<hr>
+
+<h2>あなたがいいねした投稿一覧</h2>
+<% if @liked_tweets.any? %>
+  <% @liked_tweets.each do |tweet| %>
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+      <h3><%= tweet.user.email %></h3>
+      <p><%= tweet.body %></p>
+      <% if tweet.image.attached? %>
+        <%= image_tag tweet.image, size: '200x150' %>
+      <% end %>
+      <p><strong>年代:</strong> <%= tweet.age_group %></p>
+      <p><strong>性別:</strong> <%= tweet.gender %></p>
+      <p><strong>目的:</strong> <%= tweet.goal %></p>
+      <p><strong>体重:</strong> <%= tweet.weight %> kg</p>
+      <%= link_to "詳細へ", tweet_path(tweet) %>
+    </div>
+  <% end %>
+<% else %>
+  <p>いいねした投稿はありません。</p>
+<% end %>
+Users#show
+Find me in app/views/users/show.html.erb

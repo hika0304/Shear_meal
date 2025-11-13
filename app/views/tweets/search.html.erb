@@ -1,0 +1,84 @@
+<h2>検索フォーム</h2>
+<% if user_signed_in? && current_user.search_histories.any? %>
+  <div class="search-history mb-3">
+    <h4>過去の検索</h4>
+    <% current_user.search_histories.order(updated_at: :desc).limit(5).each do |history| %>
+      <!-- ✅ 検索履歴をクリックすると自動検索 -->
+      <%= link_to history.keyword, search_tweets_path(q: { body_cont: history.keyword }),
+                  class: "btn btn-outline-secondary btn-sm me-2 mb-2" %>
+
+      <!-- ✅ 履歴削除ボタン -->
+      <%= button_to "削除",
+                    search_history_path(history),
+                    method: :delete,
+                    data: { turbo: false, confirm: "この履歴を削除しますか？" },
+                    class: "btn btn-outline-danger btn-sm mb-2" %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= search_form_for @q, url: search_tweets_path, method: :get, local: true do |f| %>
+  <div>
+    <%= f.label :age_group_eq, "年代" %>
+    <%= f.select :age_group_eq, ["10代","20代","30代","40代","50代","60代以上"], include_blank: "すべて" %>
+  </div>
+
+  <div>
+    <%= f.label :gender_eq, "性別" %>
+    <%= f.select :gender_eq, ["男性","女性"], include_blank: "すべて" %>
+  </div>
+
+  <div>
+    <%= f.label :goal_eq, "目的" %>
+    <%= f.select :goal_eq, ["ダイエット","筋トレ","健康維持"], include_blank: "すべて" %>
+  </div>
+
+  <div>
+    <%= f.label :weight_gteq, "体重（最小）" %>
+    <%= f.number_field :weight_gteq, step: 0.1 %> kg
+  </div>
+
+  <div>
+    <%= f.label :weight_lteq, "体重（最大）" %>
+    <%= f.number_field :weight_lteq, step: 0.1 %> kg
+  </div>
+
+  
+
+  <%= f.submit "絞り込み" %>
+<% end %>
+
+<hr>
+
+<h2>検索結果</h2>
+<% if @search_results.any? %>
+  <% @search_results.each do |t| %>
+    <div class="tweet">
+      <h3><strong>投稿者:</strong> <%= t.user.email %></h3>
+      
+      <p><%= t.created_at %></p>
+      <p><%= t.body %></p>
+      <% if t.image.attached? %>
+        <%= image_tag t.image, size: '250x200' %>
+      <% end %>
+      <p><strong>年代:</strong> <%= t.age_group %></p>
+      <p><strong>性別:</strong> <%= t.gender %></p>
+      <p><strong>体重:</strong> <%= t.weight %> kg</p>
+      <p><strong>目的:</strong> <%= t.goal %></p>
+
+      
+      <% if user_signed_in? && !current_user.guest? %>
+      <%= render "tweets/like_button", tweet: t %>
+      <% else %>
+  <p>※いいねはゲストユーザーでは使用できません</p>
+      <% end %>
+
+      <%= link_to "詳細へ", tweet_path(t.id) %> 
+      <%= link_to "編集する", edit_tweet_path(t.id) %>
+      <%= button_to "削除する", tweet_path(t.id), method: :delete %>  
+
+    </div>
+  <% end %>
+<% else %>
+  <p>該当する投稿はありません。</p>
+<% end %>

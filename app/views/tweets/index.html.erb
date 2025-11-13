@@ -1,0 +1,34 @@
+<h1>投稿一覧</h1>
+<div class="tweets-container">
+  <% @tweets.each do |t| %>
+    <div class="tweet">
+      <h3><%= t.user.email %></h3>
+      <%= t.created_at %>
+      <p><%= t.body %></p>
+      <% if t.image.attached? %>
+        <%= image_tag t.image, size: '250x200'%>
+      <% end %>
+      
+    
+
+     
+     <% if user_signed_in? && !current_user.guest? %>
+     <%= render "tweets/like_button", tweet: t %>
+     <% else %>
+  <p>※いいねはゲストユーザーでは使用できません</p>
+     <% end %>
+
+      <p><strong>年代:</strong> <%= t.age_group %></p>
+      <p><strong>性別:</strong> <%= t.gender %></p>
+      <p><strong>体重:</strong> <%= t.weight %> kg</p>
+      <p><strong>目的:</strong> <%= t.goal %></p>
+
+      <%= link_to "詳細へ", tweet_path(t.id) %> 
+      <%= link_to "編集する", edit_tweet_path(t.id) %>
+      <%= button_to "削除する", tweet_path(t.id), method: :delete %>  
+    </div>
+  <% end %>
+
+</div>
+
+

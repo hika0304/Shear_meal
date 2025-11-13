@@ -1,0 +1,88 @@
+<h1>Users#edit</h1>
+<p>Find me in app/views/users/edit.html.erb</p>
+
+<h1>プロフィール編集</h1>
+
+<%= form_with model: @user, url: user_path, local: true do |f| %>
+  <div>
+    <h3>プロフィールアイコンを選択</h3>
+    <% User::AVATAR_ICONS.each do |category, icons| %>
+      <h4><%= category %></h4>
+      <div class="avatar-options">
+        <% icons.each do |icon_url| %>
+          <label class="avatar-choice">
+            <%= f.radio_button :avatar_url, icon_url, class: "avatar-radio" %>
+            <%= image_tag icon_url, size: "80x80", class: "avatar-image" %>
+          </label>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div>
+    <h3>選択中のアイコン</h3>
+    <%= image_tag @user.avatar_url, id: "avatar-preview", size: "100x100" if @user.avatar_url.present? %>
+  </div>
+
+  <%= f.submit "更新する" %>
+<% end %>
+
+<style>
+.avatar-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.avatar-choice {
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
+.avatar-image {
+  border: 2px solid transparent;
+  border-radius: 50%;
+  transition: 0.2s;
+}
+.avatar-radio:checked + .avatar-image {
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+</style>
+
+<script>
+  document.querySelectorAll('.avatar-radio').forEach(radio => {
+    radio.addEventListener('change', e => {
+      const selected = e.target.value;
+      const preview = document.getElementById('avatar-preview');
+      if (preview) {
+        preview.src = selected;
+      } else {
+        const img = document.createElement('img');
+        img.id = 'avatar-preview';
+        img.src = selected;
+        img.width = 100;
+        document.querySelector('form').appendChild(img);
+      }
+    });
+  });
+</script>
+
+  <div>
+    <%= f.label :age_group, "年代" %>
+    <%= f.select :age_group, ["10代","20代","30代","40代","50代","60代以上"], include_blank: "選択してください" %>
+  </div>
+
+  <div>
+    <%= f.label :gender, "性別" %>
+    <%= f.select :gender, ["男性","女性"], include_blank: "選択してください" %>
+  </div>
+
+  <div>
+    <%= f.label :goal, "目的" %>
+    <%= f.select :goal, ["ダイエット","筋トレ","健康維持"], include_blank: "選択してください" %>
+  </div>
+
+  <%= f.submit "保存" %>
+<% end %>
+
+<%= link_to "マイページへ戻る", user_path %>

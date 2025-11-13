@@ -1,0 +1,26 @@
+<turbo-frame id="tweet_<%= tweet.id %>_likes">
+
+<% if user_signed_in? %>
+    <% if current_user.already_liked?(tweet) %>
+      <%= button_to tweet_likes_path(tweet),
+                    method: :delete,
+                    data: { turbo_frame: "tweet_#{tweet.id}_likes" },
+                    class: "btn btn-outline-danger" do %>
+        <i class="fa-regular fa-thumbs-up"></i>
+        いいねを取り消す (<%= tweet.likes.count %>)
+      <% end %>
+    <% else %>
+      <%= button_to tweet_likes_path(tweet),
+                    method: :post,
+                    data: { turbo_frame: "tweet_#{tweet.id}_likes" },
+                    class: "btn btn-outline-primary" do %>
+        <i class="fa-regular fa-thumbs-up"></i>
+        <span id="like-count-<%= tweet.id %>">
+       ❤️ <%= tweet.likes.count %>
+       </span>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>いいね数：<%= tweet.likes.count %></p>
+  <% end %>
+</turbo-frame>

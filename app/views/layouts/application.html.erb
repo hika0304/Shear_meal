@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "Shear Meal" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <script src="https://kit.fontawesome.com/0ef3d73bb0.js" crossorigin="anonymous"></script>
+    
+     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%#= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+   
+   <body>
+   <header>
+
+   <h1><%= link_to "Share Meal", tweets_path %></h1>
+
+<div class="header-list">
+  
+  <ul>
+    <li><%= link_to "新規投稿", new_tweet_path, class: "btn btn-primary" %></li>
+    <li><%= link_to "検索ページへ", search_tweets_path, class: "btn btn-success" %></li>
+    <li><%= link_to "マイページ", user_path(current_user), class: "btn btn-secondary" %></li>
+    <li><%= link_to "マイ投稿", my_posts_tweets_path %></li>
+    <li><%= link_to "ログイン", new_user_registration_path, class: "btn btn-primary" %></li>
+    <li><%= link_to "新規登録", new_user_registration_path, class: "btn btn-secondary" %></li>
+    <li><%= button_to "ゲストでログイン", users_guest_sign_in_path, method: :post, class: "btn btn-secondary" %></li>
+    <li><%= button_to 'ログアウト', destroy_user_session_path, method: :delete %></li>
+  </ul>
+      </div>
+    </header>
+    <main>
+      <%= yield %>
+    </main>
+     <footer>
+      <p>Copyright © GeekSalon All Rights Reserved.</p>
+    </footer>
+  </body>
+</html>

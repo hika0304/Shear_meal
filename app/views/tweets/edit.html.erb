@@ -1,0 +1,41 @@
+<h1>GeekTwitter</h1>
+<h3>tweetを編集</h3>
+<%= form_for @tweet do |f| %>
+  <%= f.label :body %>
+  <%= f.text_field :body, :size => 140 %> 
+
+   <div class="field">
+    <%= f.label :age_group, "年代" %><br>
+    <%= f.select :age_group, [
+        ['10代', '10代'],
+        ['20代', '20代'],
+        ['30代', '30代'],
+        ['40代', '40代'],
+        ['50代以上', '50代以上']
+      ], prompt: "選択してください" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :gender, "性別" %><br>
+    <%= f.select :gender, [['男性', '男性'], ['女性', '女性'], ['その他', 'その他']], prompt: "選択してください" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :weight, "体重(kg)" %><br>
+    <%= f.number_field :weight, step: 0.1 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :goal, "目的" %><br>
+    <%= f.select :goal, [['ダイエット', 'ダイエット'], ['筋トレ', '筋トレ'], ['増量', '増量'], ['減量', '減量']], prompt: "選択してください" %>
+  </div>
+
+  <!-- 他の投稿内容（食事画像やコメントなど） -->
+  <div class="field">
+    <%= f.label :body %>
+    <%= f.text_field :body, :size => 140 %>
+  <%= f.submit "編集する" %>
+<% end %>
+
+<%= link_to "一覧へ", :controller => "tweets", :action => "index" %>
+
